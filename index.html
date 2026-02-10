@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema & Teledrama Scheduler</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <h1><i class="fa-solid fa-clapperboard"></i> Production Scheduler</h1>
+            <p>Manage your shooting schedule and generate location breakdowns</p>
+        </header>
+
+        <main>
+            <!-- Input Section -->
+            <section class="glass-panel input-section">
+                <h2>Add New Scene</h2>
+                <form id="sceneForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="sceneNo">Scene No.</label>
+                            <input type="text" id="sceneNo" placeholder="e.g. 1A" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location (Sinhala/English)</label>
+                            <input type="text" id="location" placeholder="e.g. Living Room / සාලය" required list="locationSuggestions">
+                            <datalist id="locationSuggestions"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="dayNight">Day / Night</label>
+                            <select id="dayNight" required>
+                                <option value="Day">Day (දවල්)</option>
+                                <option value="Night">Night (රාත්‍රී)</option>
+                                <option value="Morning">Morning (උදෑසන)</option>
+                                <option value="Evening">Evening (සවස)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cast Members (Max 10)</label>
+                        <div class="cast-input-container">
+                            <input type="text" id="castInput" placeholder="Type name and press Enter to add..." list="castSuggestions">
+                            <datalist id="castSuggestions"></datalist>
+                            <button type="button" id="addCastBtn"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div id="castTags" class="cast-tags">
+                            <!-- Helper text will appear here if empty -->
+                            <span class="empty-cast-msg">No cast added yet</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary"><i class="fa-solid fa-plus-circle"></i> Add Scene</button>
+                        <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Main Schedule Table -->
+            <section class="glass-panel table-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-list"></i> Master Schedule</h2>
+                    <div class="action-buttons">
+                        <button id="downloadMasterPdf" class="btn-download"><i class="fa-solid fa-file-pdf"></i> Download Master PDF</button>
+                        <button id="clearAllData" class="btn-danger"><i class="fa-solid fa-trash"></i> Reset All</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="masterTable">
+                        <thead>
+                            <tr>
+                                <th>Scene No</th>
+                                <th>Location</th>
+                                <th>Day/Night</th>
+                                <th>Cast</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be added here -->
+                        </tbody>
+                    </table>
+                    <div id="emptyMasterMsg" class="empty-table-msg">No scenes added yet. Start by adding a scene above.</div>
+                </div>
+            </section>
+
+            <!-- Location Breakdown Section -->
+            <section class="glass-panel breakdown-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-map-location-dot"></i> Location Breakdowns</h2>
+                    <button id="downloadAllBreakdowns" class="btn-download"><i class="fa-solid fa-file-pdf"></i> Download All as PDF</button>
+                </div>
+                <div id="locationBreakdownContainer">
+                    <!-- Individual location tables will be generated here -->
+                    <div class="empty-table-msg">Add scenes to see location breakdowns here.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Action Successful</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
